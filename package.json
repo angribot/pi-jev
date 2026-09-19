@@ -1,0 +1,28 @@
+{
+  "name": "pi-jev",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Single-file pi extension for batched TypeSafe Jev judgments",
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "typecheck": "tsc --noEmit",
+    "lint": "oxlint pi-jev.ts test",
+    "format:check": "oxfmt --check pi-jev.ts test README.md package.json tsconfig.json"
+  },
+  "devDependencies": {
+    "@earendil-works/pi-ai": "0.85.1",
+    "@earendil-works/pi-coding-agent": "0.85.1",
+    "@earendil-works/pi-tui": "0.85.1",
+    "@types/node": "^24.0.0",
+    "oxfmt": "^0.40.0",
+    "oxlint": "^1.0.0",
+    "typebox": "1.3.7",
+    "typescript": "^5.9.0"
+  },
+  "pi": {
+    "extensions": [
+      "./pi-jev.ts"
+    ]
+  }
+}
