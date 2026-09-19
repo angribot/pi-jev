@@ -4,9 +4,17 @@ A single-file [pi](https://github.com/earendil-works/pi-mono) extension that exp
 
 The agent decides when to call it. It works with existing skills without changing their workflows or adding automatic routing hooks.
 
-## Install locally
+## Install
 
 Requires pi 0.85.1 or later and its supported Node.js runtime. The extension uses Node built-ins and the packages provided by pi; the development dependencies are only needed to run this repository's checks.
+
+Install the package:
+
+```sh
+pi install git:github.com/angribot/pi-jev
+```
+
+Or link the single extension file directly:
 
 ```sh
 mkdir -p ~/.pi/agent/extensions
