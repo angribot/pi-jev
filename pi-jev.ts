@@ -327,7 +327,7 @@ export default function registerJev(pi: ExtensionAPI): void {
       const state = await buildState(params, ctx.cwd, combined);
       const body = JSON.stringify({
         state,
-        model: "jev-1.13.0",
+        model: "jev-latest",
         questions: params.questions,
       });
       if (Buffer.byteLength(body) > MAX_REQUEST_BYTES)

@@ -301,12 +301,12 @@ test("files-only input and structured rubrics are sent without inventing inline 
   }
 });
 
-test("credentials stay outside arguments and model remains pinned", async () => {
+test("credentials stay outside arguments and the model alias is fixed", async () => {
   let calls = 0;
   globalThis.fetch = async (_url, options) => {
     calls++;
     const body = JSON.parse(options.body);
-    assert.equal(body.model, "jev-1.13.0");
+    assert.equal(body.model, "jev-latest");
     assert.ok(!options.body.includes("test-only-key"));
     return Response.json(response);
   };
@@ -315,7 +315,7 @@ test("credentials stay outside arguments and model remains pinned", async () => 
     await assert.rejects(run({ state: "evidence", questions }), /TYPESAFE_API_KEY/);
     assert.equal(calls, 0);
     process.env.TYPESAFE_API_KEY = "test-only-key";
-    process.env.TYPESAFE_DEFAULT_MODEL = "jev-latest";
+    process.env.TYPESAFE_DEFAULT_MODEL = "jev-preview";
     await run({ state: "evidence", questions });
     assert.equal(calls, 1);
   } finally {

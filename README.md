@@ -23,7 +23,7 @@ ln -s ~/repo/pi-jev/pi-jev.ts ~/.pi/agent/extensions/pi-jev.ts
 
 Set `TYPESAFE_API_KEY` in the environment that starts pi. Then run `/reload` in pi. A missing key produces an error when the tool is called, rather than preventing pi from starting.
 
-The model is pinned to `jev-1.13.0`; the response model is included in each result.
+Requests use the `jev-latest` alias, so they follow TypeSafe's newest stable release. Each result includes the response's `model`, which reports the versioned ID that actually answered; pin that ID instead if you have tuned thresholds to a specific version.
 
 ## Tool input
 
