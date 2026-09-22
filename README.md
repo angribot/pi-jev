@@ -86,7 +86,7 @@ Instructions support text or structured objects/arrays. Criteria descriptions al
 
 ## Results and failures
 
-Model-visible content is JSON containing `model`, `answers`, `usage` and `elapsedMs`. The tool also keeps the response in pi's result details for rendering. The collapsed TUI shows the number of judgments, model, elapsed time and input tokens.
+Model-visible content is JSON containing `model`, `answers`, `usage` and `elapsedMs`. The tool also keeps the response in pi's result details for rendering. The collapsed TUI shows the model, elapsed time and input tokens.
 
 - Choice/Score confidence describes distribution concentration, not correctness. Noul has no separate confidence field. The tool preserves raw outputs and leaves thresholds and actions to the caller.
 - Output above pi's 50 KB / 2000-line display limit is saved as complete JSON in a private temporary directory. The tool returns a valid JSON summary with `outputPath`; use `read` to inspect it. Files remain available for resumed sessions until the operating system removes them.

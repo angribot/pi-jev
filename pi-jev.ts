@@ -377,12 +377,10 @@ export default function registerJev(pi: ExtensionAPI): void {
       if (expanded || !result.details) return new Text(theme.fg("toolOutput", text), 0, 0);
       const { response, elapsedMs } = result.details;
       return new Text(
-        theme.fg("success", `${Object.keys(response.answers).length} judgments returned`) +
-          "\n" +
-          theme.fg(
-            "dim",
-            `${response.model} | ${elapsedMs} ms | ${response.usage.input_tokens} input tokens | ${keyHint("app.tools.expand", "to expand")}`,
-          ),
+        theme.fg(
+          "dim",
+          `${response.model} | ${elapsedMs} ms | ${response.usage.input_tokens} input tokens | ${keyHint("app.tools.expand", "to expand")}`,
+        ),
         0,
         0,
       );
