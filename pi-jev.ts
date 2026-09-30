@@ -13,6 +13,9 @@ import { Type, type Static } from "typebox";
 
 const PROVIDER = "typesafe";
 const MODEL_ID = "jev-latest";
+// USD per million tokens; jev-latest currently aliases jev-1.13.0.
+// https://docs.typesafe.ai/models.md — input $0.042/Mtok, output free.
+const DEFAULT_COST = { input: 0.042, output: 0, cacheRead: 0, cacheWrite: 0 };
 const TIMEOUT_MS = 30_000;
 // Local byte budget, not an estimate of the model's token limit. The service enforces tokens.
 const MAX_STATE_BYTES = 192_000;
@@ -229,7 +232,6 @@ function validateQuestions(questions: JevEvaluateInput["questions"]): {
       c !== undefined &&
       c !== null &&
       (!object(c) ||
-        Object.keys(c).length < 1 ||
         Object.entries(c).some(
           ([key, value]) =>
             !["true", "false"].includes(key) || (value !== null && typeof value !== "string"),
@@ -349,7 +351,7 @@ function validateAnswer(id: string, question: ClassifierQuestion, answer: unknow
       probabilities[key] = value;
     }
     if (
-      !Object.keys(probabilities).length ||
+      Object.keys(probabilities).length !== keys.length ||
       !keys.includes(answer.choice) ||
       !keys.every((key) => Object.hasOwn(probabilities, key))
     )
@@ -411,8 +413,18 @@ export default function registerJev(pi: ExtensionAPI): void {
         content: [{ type: "text", text: "Evaluating with Jev..." }],
         details: undefined,
       });
+      // Keep catalog pricing when present; Pi currently lists direct Jev at zero cost.
+      const pricedModel =
+        model.cost &&
+        (model.cost.input ||
+          model.cost.output ||
+          model.cost.cacheRead ||
+          model.cost.cacheWrite ||
+          model.cost.tiers?.length)
+          ? model
+          : { ...model, cost: DEFAULT_COST };
       const result = await ctx.modelRegistry.classify(
-        model,
+        pricedModel,
         { state, questions },
         { signal: combined },
       );

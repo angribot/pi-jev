@@ -22,6 +22,7 @@ const model = {
   api: "typesafe-system-one",
   baseUrl: "https://api.typesafe.ai/v1",
   contextWindow: 128_000,
+  cost: { input: 0.042, output: 0, cacheRead: 0, cacheWrite: 0 },
 };
 
 const questions = {
@@ -213,15 +214,6 @@ test("invalid evidence and rubrics fail before any classifier call", async () =>
       {
         state: "x",
         questions: {
-          bad: { type: "noul", instructions: "Is it present?", criteria: {} },
-        },
-      },
-      /true/,
-    ],
-    [
-      {
-        state: "x",
-        questions: {
           bad: { type: "noul", instructions: "" },
         },
       },
@@ -242,6 +234,12 @@ test("malformed or mismatched answers are rejected instead of becoming judgments
   const malformed = [
     { answers: { ...answers, present: { type: "bool", probability: 2 } } },
     { answers: { ...answers, present: undefined } },
+    {
+      answers: {
+        ...answers,
+        support: { ...answers.support, probabilities: { yes: 0.1, no: 0.1, unrelated: 0.8 } },
+      },
+    },
     { answers: { ...answers, support: { ...answers.support, choice: "unknown" } } },
     { answers: { ...answers, support: { ...answers.support, probabilities: { yes: 9, no: 1 } } } },
     {
